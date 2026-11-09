@@ -20,7 +20,15 @@ Statische Kopie von https://www.strandhaus-gonska-dahme.de (bisher IONOS „MyWe
 npx http-server@14.1.1 site -p 8080
 ```
 
-## Offene Punkte
+## Veröffentlichung
 
-- Kontaktformular (`site/kontakt-1/`) schickt bisher an WordPress (admin-ajax) und
-  funktioniert statisch nicht. Braucht einen Ersatz (PHP-Mailskript oder Formulardienst).
+- Jeder Push auf `main`, der `site/` ändert, lädt per GitHub Actions (`.github/workflows/deploy.yml`)
+  per SFTP auf IONOS Webhosting Pro (Vertrag 56726412), Ordner `/strandhausgonska`.
+- SFTP-Benutzer `acc440118376`, Passwort als Repository-Secret `SFTP_PASSWORD`.
+- Vorschau: http://strandhaus.k357.de (Subdomain auf `/strandhausgonska`).
+
+## Kontaktformular
+
+- `site/assets/kontakt.js` fängt das Formular auf `/kontakt-1/` ab und schickt es an `site/kontakt.php`.
+- `kontakt.php` sendet per PHP `mail()` an kontakt@strandhaus-gonska-dahme.de (Absender
+  webseite@strandhaus-gonska-dahme.de, Antwort-an = Besucher). Spam-Schutz: verstecktes Feld + Mindestzeit.
