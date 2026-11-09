@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SFTP_HOST: home605531364.1and1-data.host
-      SFTP_USER: u83333307-strandhaus
+      SFTP_USER: acc440118376
     steps:
       - uses: actions/checkout@v4
 
