@@ -54,5 +54,9 @@ $kopf = implode("\r\n", [
     'Content-Transfer-Encoding: 8bit',
 ]);
 
-$gesendet = mail(EMPFAENGER, mb_encode_mimeheader(BETREFF), $text, $kopf, '-f' . ABSENDER);
+$betreff = mb_encode_mimeheader(BETREFF);
+// Mit explizitem Envelope-Absender versuchen; lehnt der Server das ab, ohne -f erneut senden
+$gesendet = mail(EMPFAENGER, $betreff, $text, $kopf, '-f' . ABSENDER)
+         || mail(EMPFAENGER, $betreff, $text, $kopf);
+if (!$gesendet) error_log('kontakt.php: mail() fehlgeschlagen: ' . (error_get_last()['message'] ?? 'unbekannt'));
 antwort($gesendet ? 200 : 500, $gesendet, $gesendet ? '' : 'Versand fehlgeschlagen');
