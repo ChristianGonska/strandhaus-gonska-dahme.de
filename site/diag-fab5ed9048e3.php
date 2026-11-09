@@ -1,10 +1,11 @@
 <?php
 header('Content-Type: application/json');
-echo json_encode([
-  'php' => PHP_VERSION,
-  'sendmail_path' => ini_get('sendmail_path'),
-  'disable_functions' => ini_get('disable_functions'),
-  'mail_exists' => function_exists('mail'),
-  'mail_force_extra_parameters' => ini_get('mail.force_extra_parameters'),
-  'smtp' => ini_get('SMTP'),
-], JSON_PRETTY_PRINT);
+$to = 'kontakt@strandhaus-gonska-dahme.de';
+$res = [];
+foreach (['webseite@strandhaus-gonska-dahme.de', 'webseite@k357.de', null] as $i => $from) {
+  $h = "Content-Type: text/plain; charset=UTF-8\r\n" . ($from ? "From: $from" : '');
+  $ok = @mail($to, "Test $i Kontaktformular (bitte ignorieren)", "Absender-Test $i: " . ($from ?? 'Server-Standard'), $h);
+  $res[] = ['from' => $from ?? 'Server-Standard', 'ok' => $ok, 'err' => $ok ? null : (error_get_last()['message'] ?? null)];
+  if ($ok) break;
+}
+echo json_encode($res, JSON_PRETTY_PRINT);
