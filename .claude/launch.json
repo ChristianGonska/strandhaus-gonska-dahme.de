@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "strandhaus",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["-y", "http-server@14.1.1", "site", "-p", "8080", "-c-1", "--silent"],
+      "port": 8080
+    }
+  ]
+}
