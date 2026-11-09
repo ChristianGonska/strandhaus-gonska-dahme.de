@@ -30,5 +30,5 @@ npx http-server@14.1.1 site -p 8080
 ## Kontaktformular
 
 - `site/assets/kontakt.js` fängt das Formular auf `/kontakt-1/` ab und schickt es an `site/kontakt.php`.
-- `kontakt.php` sendet per PHP `mail()` an kontakt@strandhaus-gonska-dahme.de (Absender
-  webseite@strandhaus-gonska-dahme.de, Antwort-an = Besucher). Spam-Schutz: verstecktes Feld + Mindestzeit.
+- `kontakt.php` sendet per SMTP (smtp.ionos.de:465, Postfach kontakt@strandhaus-gonska-dahme.de) an dasselbe Postfach (Absender
+  = Postfach, Antwort-an = Besucher). Passwort: Secret `SMTP_PASSWORD`, daraus erzeugt der Upload `site/kontakt-config.php` (nicht im Repo). PHP `mail()` funktioniert auf dem Webhosting nicht.. Spam-Schutz: verstecktes Feld + Mindestzeit.

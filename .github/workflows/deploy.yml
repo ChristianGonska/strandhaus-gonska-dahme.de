@@ -24,6 +24,14 @@ jobs:
       - name: lftp installieren
         run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
 
+      - name: Zugangsdaten für das Kontaktformular erzeugen
+        env:
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+        run: |
+          if [ -z "$SMTP_PASSWORD" ]; then echo "::warning::Secret SMTP_PASSWORD fehlt, Kontaktformular sendet nicht"; exit 0; fi
+          B64=$(printf '%s' "$SMTP_PASSWORD" | base64 -w0)
+          printf "<?php\nreturn ['user' => 'kontakt@strandhaus-gonska-dahme.de', 'pass' => base64_decode('%s')];\n" "$B64" > site/kontakt-config.php
+
       - name: Hochladen
         env:
           SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
